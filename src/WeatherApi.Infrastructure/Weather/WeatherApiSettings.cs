@@ -9,4 +9,5 @@ public class WeatherApiSettings
     public bool UseFakeData { get; set; } = true;
     public int TimeoutSeconds { get; set; } = 10;
     public int RetryCount { get; set; } = 3;
+    
 }

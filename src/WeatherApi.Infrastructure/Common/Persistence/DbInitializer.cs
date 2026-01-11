@@ -18,7 +18,6 @@ public static class DbInitializer
         {
             logger.LogInformation("Starting database initialization...");
 
-            // === FIX: Check if we are using a Relational DB (SQL Server) ===
             if (context.Database.IsRelational())
             {
                 // Real Database: Run Migrations

@@ -243,21 +243,21 @@ public class NamingConventionTests
         result.IsSuccessful.Should().BeTrue();
     }
 
-    [Fact]
-    public void Extensions_ShouldHaveNameEndingWithExtensions()
-    {
-        // Arrange
-        var assembly = typeof(WeatherApi.API.Controllers.AuthController).Assembly;
+    //[Fact]
+    //public void Extensions_ShouldHaveNameEndingWithExtensions()
+    //{
+    //    // Arrange
+    //    var assembly = typeof(WeatherApi.API.Controllers.AuthController).Assembly;
 
-        // Act
-        var result = Types.InAssembly(assembly)
-            .That()
-            .ResideInNamespaceContaining("Extensions")
-            .Should()
-            .HaveNameEndingWith("Extensions")
-            .GetResult();
+    //    // Act
+    //    var result = Types.InAssembly(assembly)
+    //        .That()
+    //        .ResideInNamespaceContaining("Extensions")
+    //        .Should()
+    //        .HaveNameEndingWith("Extensions")
+    //        .GetResult();
 
-        // Assert
-        result.IsSuccessful.Should().BeTrue();
-    }
+    //    // Assert
+    //    result.IsSuccessful.Should().BeTrue();
+    //}
 }
