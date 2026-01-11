@@ -76,7 +76,6 @@ A  Weather Forecast API built with **.NET 8** and **Clean Architecture** princip
 - ✅ **Unit Tests** - Domain entities, Application handlers, Infrastructure services
 - ✅ **Integration Tests** - API endpoints, Database operations
 - ✅ **Architecture Tests** - Layer dependencies, Naming conventions
-- ✅ **90%+ Code Coverage**
 
 ---
 
