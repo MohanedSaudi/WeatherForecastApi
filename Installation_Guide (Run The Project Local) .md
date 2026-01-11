@@ -33,8 +33,8 @@ git --version
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/MohanedSaudi/weather-forecast-api.git
-cd weather-forecast-api
+git clone https://github.com/MohanedSaudi/WeatherForecastApi.git
+cd WeatherForecastApi
 ```
 
 ### Step 2: Update Connection String
