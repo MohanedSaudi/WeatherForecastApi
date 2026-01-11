@@ -1,0 +1,336 @@
+
+@baseUrl = http://localhost:5000
+@contentType = application/json
+
+### Variables (Update these after login)
+@accessToken = your_access_token_here
+@refreshToken = your_refresh_token_here
+
+########################################
+# AUTHENTICATION ENDPOINTS
+########################################
+
+### 1. Register New User (Success)
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "username": "newuser",
+  "email": "newuser@example.com",
+  "password": "NewUser123!@#"
+}
+
+### 2. Register with Existing Email (Conflict - 409)
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "username": "duplicate",
+  "email": "admin@weatherapi.com",
+  "password": "Test123!@#"
+}
+
+### 3. Register with Weak Password (Validation Error - 400)
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "username": "weakpass",
+  "email": "weak@example.com",
+  "password": "123"
+}
+
+### 4. Login as Admin User
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@weatherapi.com",
+  "password": "Admin123!@#"
+}
+
+### 5. Login as Premium User
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "premium@weatherapi.com",
+  "password": "Premium123!@#"
+}
+
+### 6. Login as Regular User
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@weatherapi.com",
+  "password": "Test123!@#"
+}
+
+### 7. Login with Invalid Credentials (Unauthorized - 401)
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@weatherapi.com",
+  "password": "WrongPassword123!@#"
+}
+
+### 8. Login with Non-existent Email (Unauthorized - 401)
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "nonexistent@example.com",
+  "password": "Test123!@#"
+}
+
+### 9. Refresh Access Token (Uses cookie automatically)
+POST {{baseUrl}}/api/auth/refresh-token
+Content-Type: {{contentType}}
+
+### 10. Revoke Token / Logout (Requires authentication)
+POST {{baseUrl}}/api/auth/revoke-token
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+########################################
+# WEATHER ENDPOINTS
+########################################
+
+### 11. Get Weather for City (Requires authentication)
+GET {{baseUrl}}/api/weather?city=London
+Authorization: Bearer {{accessToken}}
+Accept: {{contentType}}
+
+### 12. Get Weather for Multiple Cities
+GET {{baseUrl}}/api/weather?city=Paris
+Authorization: Bearer {{accessToken}}
+Accept: {{contentType}}
+
+###
+GET {{baseUrl}}/api/weather?city=Tokyo
+Authorization: Bearer {{accessToken}}
+Accept: {{contentType}}
+
+###
+GET {{baseUrl}}/api/weather?city=NewYork
+Authorization: Bearer {{accessToken}}
+Accept: {{contentType}}
+
+### 13. Get Weather without Authentication (Unauthorized - 401)
+GET {{baseUrl}}/api/weather?city=London
+Accept: {{contentType}}
+
+### 14. Get Weather with Invalid City (Validation Error - 400)
+GET {{baseUrl}}/api/weather?city=
+Authorization: Bearer {{accessToken}}
+Accept: {{contentType}}
+
+### 15. Bulk Weather Request (Premium Users Only)
+POST {{baseUrl}}/api/weather/bulk
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+[
+  "London",
+  "Paris",
+  "Tokyo",
+  "NewYork",
+  "Berlin"
+]
+
+### 16. Bulk Weather as Regular User (Forbidden - 403)
+# First login as regular user, then try this
+POST {{baseUrl}}/api/weather/bulk
+Content-Type: {{contentType}}
+Authorization: Bearer {{accessToken}}
+
+[
+  "London",
+  "Paris"
+]
+
+########################################
+# HEALTH CHECK
+########################################
+
+### 17. Health Check Endpoint
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+
+########################################
+# RATE LIMITING TESTS
+########################################
+
+### 18. Test Rate Limiting (Send multiple times quickly)
+GET {{baseUrl}}/api/weather?city=London
+Authorization: Bearer {{accessToken}}
+Accept: {{contentType}}
+
+### Repeat the above request 100+ times to trigger rate limit (429)
+
+########################################
+# VALIDATION TESTS
+########################################
+
+### 19. Register with Missing Fields (Validation - 400)
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "username": "",
+  "email": "test@example.com",
+  "password": ""
+}
+
+### 20. Register with Invalid Email Format (Validation - 400)
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "username": "testuser",
+  "email": "not-an-email",
+  "password": "Test123!@#"
+}
+
+### 21. Login with Missing Password (Validation - 400)
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@weatherapi.com",
+  "password": ""
+}
+
+########################################
+# COMPLETE WORKFLOW EXAMPLES
+########################################
+
+### SCENARIO 1: New User Registration & Weather Request
+# Step 1: Register
+POST {{baseUrl}}/api/auth/register
+Content-Type: {{contentType}}
+
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "JohnDoe123!@#"
+}
+
+# Step 2: Copy accessToken from response above
+# Step 3: Get Weather
+GET {{baseUrl}}/api/weather?city=London
+Authorization: Bearer YOUR_TOKEN_HERE
+Accept: {{contentType}}
+
+### SCENARIO 2: Login & Multiple Weather Requests
+# Step 1: Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@weatherapi.com",
+  "password": "Admin123!@#"
+}
+
+# Step 2: Get weather for different cities
+GET {{baseUrl}}/api/weather?city=London
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+GET {{baseUrl}}/api/weather?city=Paris
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+GET {{baseUrl}}/api/weather?city=Tokyo
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### SCENARIO 3: Premium User Bulk Request
+# Step 1: Login as Premium
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "premium@weatherapi.com",
+  "password": "Premium123!@#"
+}
+
+# Step 2: Bulk request
+POST {{baseUrl}}/api/weather/bulk
+Content-Type: {{contentType}}
+Authorization: Bearer YOUR_TOKEN_HERE
+
+[
+  "London",
+  "Paris",
+  "Tokyo",
+  "NewYork",
+  "Berlin",
+  "Sydney"
+]
+
+### SCENARIO 4: Token Refresh Flow
+# Step 1: Login (token expires in 15 minutes)
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@weatherapi.com",
+  "password": "Test123!@#"
+}
+
+# Step 2: Wait for token to expire or use it
+# Step 3: Refresh token
+POST {{baseUrl}}/api/auth/refresh-token
+Content-Type: {{contentType}}
+
+# Step 4: Use new token
+GET {{baseUrl}}/api/weather?city=London
+Authorization: Bearer YOUR_NEW_TOKEN_HERE
+
+### SCENARIO 5: Logout Flow
+# Step 1: Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@weatherapi.com",
+  "password": "Test123!@#"
+}
+
+# Step 2: Make some requests
+GET {{baseUrl}}/api/weather?city=London
+Authorization: Bearer YOUR_TOKEN_HERE
+
+# Step 3: Logout (revoke token)
+POST {{baseUrl}}/api/auth/revoke-token
+Content-Type: {{contentType}}
+Authorization: Bearer YOUR_TOKEN_HERE
+
+# Step 4: Try to use revoked token (should fail)
+GET {{baseUrl}}/api/weather?city=London
+Authorization: Bearer YOUR_TOKEN_HERE
+
+########################################
+# ERROR SCENARIOS
+########################################
+
+### 22. Malformed JSON (Bad Request - 400)
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "test@weatherapi.com"
+  "password": "Test123!@#"
+}
+
+### 23. Invalid Bearer Token (Unauthorized - 401)
+GET {{baseUrl}}/api/weather?city=London
+Authorization: Bearer invalid_token_here
+Accept: {{contentType}}
+
+### 24. Expired Token (Unauthorized - 401)
+GET {{baseUrl}}/api/weather?city=London
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.expired.token
+Accept: {{contentType}}
