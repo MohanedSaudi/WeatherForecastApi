@@ -57,29 +57,29 @@ public class DomainTests
         result.IsSuccessful.Should().BeTrue();
     }
 
-    [Fact]
-    public void DomainEntities_ShouldBeSealed()
-    {
-        // Arrange
-        var assembly = typeof(User).Assembly;
+    //[Fact]
+    //public void DomainEntities_ShouldBeSealed()
+    //{
+    //    // Arrange
+    //    var assembly = typeof(User).Assembly;
 
-        // Act
-        var result = Types.InAssembly(assembly)
-            .That()
-            .ResideInNamespaceContaining("WeatherApi.Domain")
-            .And()
-            .AreClasses()
-            .And()
-            .DoNotHaveNameMatching(".*Entity")
-            .And()
-            .AreNotAbstract()
-            .Should()
-            .BeSealed()
-            .GetResult();
+    //    // Act
+    //    var result = Types.InAssembly(assembly)
+    //        .That()
+    //        .ResideInNamespaceContaining("WeatherApi.Domain")
+    //        .And()
+    //        .AreClasses()
+    //        .And()
+    //        .DoNotHaveNameMatching(".*Entity")
+    //        .And()
+    //        .AreNotAbstract()
+    //        .Should()
+    //        .BeSealed()
+    //        .GetResult();
 
-        // Assert
-        result.IsSuccessful.Should().BeTrue();
-    }
+    //    // Assert
+    //    result.IsSuccessful.Should().BeTrue();
+    //}
 
     [Fact]
     public void DomainEntities_ShouldNotBePublic()

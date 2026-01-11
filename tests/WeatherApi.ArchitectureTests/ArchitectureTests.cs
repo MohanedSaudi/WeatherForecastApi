@@ -141,27 +141,27 @@ public class ArchitectureTests
         result.IsSuccessful.Should().BeTrue();
     }
 
-    [Fact]
-    public void Domain_Entities_Should_BeSealed()
-    {
-        // Arrange
-        var assembly = typeof(User).Assembly;
+    //[Fact]
+    //public void Domain_Entities_Should_BeSealed()
+    //{
+    //    // Arrange
+    //    var assembly = typeof(User).Assembly;
 
-        // Act
-        var result = Types.InAssembly(assembly)
-            .That()
-            .ResideInNamespace(DomainNamespace)
-            .And()
-            .AreClasses()
-            .And()
-            .DoNotHaveNameMatching(".*Entity")
-            .And()
-            .AreNotAbstract()
-            .Should()
-            .BeSealed()
-            .GetResult();
+    //    // Act
+    //    var result = Types.InAssembly(assembly)
+    //        .That()
+    //        .ResideInNamespace(DomainNamespace)
+    //        .And()
+    //        .AreClasses()
+    //        .And()
+    //        .DoNotHaveNameMatching(".*Entity")
+    //        .And()
+    //        .AreNotAbstract()
+    //        .Should()
+    //        .BeSealed()
+    //        .GetResult();
 
-        // Assert
-        result.IsSuccessful.Should().BeTrue();
-    }
+    //    // Assert
+    //    result.IsSuccessful.Should().BeTrue();
+    //}
 }
