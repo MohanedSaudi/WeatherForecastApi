@@ -578,11 +578,11 @@ The application comes with 3 pre-seeded users for testing:
 1. **Authentication & Authorization**
    - JWT tokens with HMAC-SHA256 signing
    - Role-based access control (Admin, Premium, User)
-   - Short-lived access tokens (15 minutes)
-   - Long-lived refresh tokens (7 days, revocable)
+   - Short-lived access tokens 
+   - Long-lived refresh tokens (revocable)
 
 2. **Password Security**
-   - BCrypt hashing with 12 salt rounds
+   - BCrypt hashing
    - Password complexity validation
    - Secure password comparison
 
