@@ -34,12 +34,12 @@ A  Weather Forecast API built with **.NET 8** and **Clean Architecture** princip
 - ✅ **Unit of Work** pattern for transaction management
 
 ### Security & Authentication
-- ✅ **JWT Authentication** with short-lived access tokens (15 minutes)
-- ✅ **Refresh Tokens** stored in HttpOnly cookies (7 days expiration)
+- ✅ **JWT Authentication** with short-lived access tokens 
+- ✅ **Refresh Tokens** stored in HttpOnly cookies 
 - ✅ **Role-Based Authorization** (Admin, Premium, User)
 - ✅ **CSRF Protection** with Anti-Forgery tokens
 - ✅ **XSS Protection** with HttpOnly cookies and secure headers
-- ✅ **Password Hashing** with BCrypt (salt rounds: 12)
+- ✅ **Password Hashing** with BCrypt 
 - ✅ **Rate Limiting** by IP address to prevent abuse
 - ✅ **Security Headers** (HSTS, CSP, X-Frame-Options, X-Content-Type-Options)
 
@@ -52,7 +52,7 @@ A  Weather Forecast API built with **.NET 8** and **Clean Architecture** princip
 - ✅ **Audit Tracking** - CreatedAt, CreatedBy, UpdatedAt, UpdatedBy
 
 ### Performance & Resilience
-- ✅ **In-Memory Caching** with configurable expiration (10 minutes)
+- ✅ **In-Memory Caching** with configurable expiration
 - ✅ **Response Compression** (Brotli & Gzip)
 - ✅ **Retry Policy** with exponential backoff (Polly)
 - ✅ **Circuit Breaker** pattern for external API calls
